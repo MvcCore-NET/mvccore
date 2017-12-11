@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+	<metadata minClientVersion="2.6">
+		<id>MvcCore</id>
+		<version>1.0.2</version>
+		<title>MvcCore - C# MVC Extensible Framework</title>
+		<authors>Tom Flidr</authors>
+		<owners>Tom Flidr</owners>
+		<licenseUrl>https://opensource.org/licenses/BSD-3-Clause</licenseUrl>
+		<projectUrl>https://github.com/mvccore-net</projectUrl>
+		<iconUrl>https://avatars2.githubusercontent.com/u/16767103?s=600&amp;v=4</iconUrl>
+		<language>en-US</language>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>
+      MvcCore - C# MVC Extensible Framework based on MvcCore PHP library.
+    </description>
+		<copyright>Copyright © 2017</copyright>
+		<tags>csharp cs vb-net vb asp-net mvc mvccore web core controller view model session request response router route tools config</tags>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="Microsoft.CSharp" />
+			<frameworkAssembly assemblyName="System" />
+			<frameworkAssembly assemblyName="System.Configuration" />
+			<frameworkAssembly assemblyName="System.Core" />
+			<frameworkAssembly assemblyName="System.Runtime.Serialization" />
+			<frameworkAssembly assemblyName="System.Web" />
+			<frameworkAssembly assemblyName="System.Web.Extensions" />
+      <frameworkAssembly assemblyName="System.Web.Http" />
+		</frameworkAssemblies>
+		<releaseNotes>https://github.com/mvccore-net/mvccore/releases</releaseNotes>
+	</metadata>
+	<files>
+		<file src="content/Web.config.install.xdt" target="content/Web.config.install.xdt" />
+		<file src="content/Web.config.uninstall.xdt" target="content/Web.config.uninstall.xdt" />
+	</files>
+</package>

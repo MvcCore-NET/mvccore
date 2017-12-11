@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <system.webServer>
+    <modules>
+      <add name="Desharp" type="Desharp.Application" xdt:Transform="Remove" xdt:Locator="Match(name)" />
+    </modules>
+  </system.webServer>
+  <appSettings>
+    <add key="MvcCore:Enabled" value="1" xdt:Transform="Remove" xdt:Locator="Match(key)" />
+  </appSettings>
+</configuration>

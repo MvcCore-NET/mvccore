@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  
+  <system.webServer xdt:Transform="InsertIfMissing">
+    <modules xdt:Transform="InsertIfMissing">
+      <add name="MvcCore" 
+           type="MvcCore.Application" 
+           xdt:Transform="InsertIfMissing" 
+           xdt:Locator="Match(name)" />
+    </modules>
+    <directoryBrowse enabled="false" xdt:Transform="InsertIfMissing" />
+  </system.webServer>
+  
+  <appSettings xdt:Transform="InsertIfMissing">
+    <add key="MvcCore:Enabled" value="1" 
+         xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+  </appSettings>
+  
+</configuration>
