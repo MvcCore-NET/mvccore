@@ -8,12 +8,15 @@
            xdt:Transform="InsertIfMissing" 
            xdt:Locator="Match(name)" />
     </modules>
+    <handlers xdt:Transform="InsertIfMissing">
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
+      <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
+      <remove name="ExtensionlessUrlHandler-Integrated-4.0" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
+      <add name="MvcCore" verb="*" path="*" type="MvcCore.Application, MvcCore" resourceType="Unspecified" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"  />
+    </handlers>
     <directoryBrowse enabled="false" xdt:Transform="InsertIfMissing" />
   </system.webServer>
-  
   <appSettings xdt:Transform="InsertIfMissing">
-    <add key="MvcCore:Enabled" value="1" 
-         xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="MvcCore:Enabled" value="1" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
   </appSettings>
-  
 </configuration>

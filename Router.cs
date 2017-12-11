@@ -11,10 +11,10 @@ namespace MvcCore {
 		protected Route currentRoute = null;
 		public static Router GetInstance(params Route[] routes) {
 			if (!(Router.instance is Router)) {
-				Router.instance = Activator.CreateInstance(
+				/*Router.instance = Activator.CreateInstance(
 					Application.GetInstance().GetRouterClass(),
 					routes
-				) as Router;
+				) as Router;*/
 			}
 			return Router.instance;
 		}

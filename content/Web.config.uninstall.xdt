@@ -4,6 +4,9 @@
     <modules>
       <add name="Desharp" type="Desharp.Application" xdt:Transform="Remove" xdt:Locator="Match(name)" />
     </modules>
+    <handlers>
+      <add name="MvcCore" verb="*" path="*" type="MvcCore.Application, MvcCore" resourceType="Unspecified" xdt:Transform="Remove" xdt:Locator="Match(name)"  />
+    </handlers>
   </system.webServer>
   <appSettings>
     <add key="MvcCore:Enabled" value="1" xdt:Transform="Remove" xdt:Locator="Match(key)" />
