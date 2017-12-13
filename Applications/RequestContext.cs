@@ -8,8 +8,10 @@ using System.Web;
 
 namespace MvcCore.Applications {
 	public class RequestContext {
+		public Route CurrentRoute = null;
 		public Controller Controller = null;
 		public Request Request = null;
 		public Response Response = null;
+		public bool Terminated = false;
 	}
 }

@@ -1,22 +1,38 @@
 <?xml version="1.0"?>
 <configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  
   <system.webServer xdt:Transform="InsertIfMissing">
     <modules xdt:Transform="InsertIfMissing">
-      <add name="MvcCore" 
-           type="MvcCore.Application" 
-           xdt:Transform="InsertIfMissing" 
-           xdt:Locator="Match(name)" />
+      <add name="MvcCore" type="MvcCore.Application" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
     </modules>
     <handlers xdt:Transform="InsertIfMissing">
       <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
       <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
       <remove name="ExtensionlessUrlHandler-Integrated-4.0" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)" />
-      <add name="MvcCore" verb="*" path="*" type="MvcCore.Application, MvcCore" resourceType="Unspecified" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"  />
+      <add name="MvcCore" verb="GET,POST,PUT,DELETE,OPTION,HEAD,OPTIONS,PATCH,TRACE,CONNECT" path="*" type="MvcCore.Application, MvcCore" resourceType="Unspecified" xdt:Transform="InsertIfMissing" xdt:Locator="Match(name)"  />
     </handlers>
     <directoryBrowse enabled="false" xdt:Transform="InsertIfMissing" />
   </system.webServer>
+  <system.web>
+    <compilation debug="true" targetFramework="4.0" xdt:Transform="InsertIfMissing" />
+    <pages xdt:Transform="InsertIfMissing">
+      <namespaces xdt:Transform="InsertIfMissing">
+        <add namespace="System.Collections" xdt:Transform="InsertIfMissing" xdt:Locator="Match(namespace)" />
+        <add namespace="System.Collections.Generic" xdt:Transform="InsertIfMissing" xdt:Locator="Match(namespace)" />
+        <add namespace="Controllers" xdt:Transform="InsertIfMissing" xdt:Locator="Match(namespace)" />
+      </namespaces>
+    </pages>
+    <sessionState mode="InProc" timeout="525600" cookieless="UseCookies" cookieName="ASP.NET_SessionId" regenerateExpiredSessionId="true">
+		  <providers>
+			  <clear />
+		  </providers>
+	  </sessionState>
+  </system.web>
   <appSettings xdt:Transform="InsertIfMissing">
-    <add key="MvcCore:Enabled" value="1" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:Enabled" value="1" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:Output" value="html" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:DebugIps" value="127.0.0.1,::1" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:Levels" value="+exception,debug,info,-notice,-warning,+error,+critical,alert,+emergency,javascript" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:Panels" value="Desharp.Panels.SystemInfo,Desharp.Panels.Session" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="Desharp:Directory" value="~/Var/Logs" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
   </appSettings>
 </configuration>

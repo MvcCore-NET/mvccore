@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Desharp, Version=1.2.11.0, Culture=neutral, PublicKeyToken=cd60d985c52bcd6f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Desharp.1.2.11\lib\net40\Desharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RazorEngine.3.10.0\lib\net40\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -40,15 +46,22 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Applications\Application.GettersSetters.cs" />
-    <Compile Include="Applications\Application.RequestContext.cs" />
+    <Compile Include="Application\Helpers.cs" />
+    <Compile Include="Application\Dispatching.cs" />
+    <Compile Include="Application\GettersSetters.cs" />
+    <Compile Include="Application\RequestContext.cs" />
     <Compile Include="Applications\RequestContext.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="content\Controllers\Index.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Delegates.cs" />
+    <Compile Include="Applications\Exception.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Controller.cs" />
@@ -57,14 +70,16 @@
     <Compile Include="Route.cs" />
     <Compile Include="Router.cs" />
     <Compile Include="Session.cs" />
+    <Compile Include="Tool.cs" />
+    <Compile Include="Tools\StringExtensions.cs" />
     <Compile Include="View.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="content\Web.config.install.xdt" />
+    <None Include="content\Web.config.uninstall.xdt" />
     <None Include="MvcCore.nuspec">
       <SubType>Designer</SubType>
     </None>
-    <None Include="content\Web.config.install.xdt" />
-    <None Include="content\Web.config.uninstall.xdt" />
     <None Include="packages.config" />
     <None Include="_CreateNewNuGetPackage\Config.ps1" />
     <None Include="_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1" />
@@ -79,18 +94,15 @@
     <Folder Include="Structs\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\tec\cs\desharp\desharp\Desharp.csproj">
-      <Project>{4f63d16b-a1e9-45a9-ac2f-831a1220b2b9}</Project>
-      <Name>Desharp</Name>
-    </ProjectReference>
+    <Content Include="content\Views\Layouts\layout.cshtml" />
+    <Content Include="content\Views\Scripts\Index\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>@if $(ConfigurationName) EQU Release (
-	REM Create a NuGet package for this project and place the .nupkg file in the project's output directory.
-	REM If you see this in Visual Studio's Error List window, check the Output window's Build tab for the actual error.
-	ECHO Creating NuGet package in Post-Build event...
-	PowerShell -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1' -ProjectFilePath '$(ProjectPath)' -OutputDirectory '$(TargetDir)' -BuildConfiguration '$(ConfigurationName)' -BuildPlatform '$(PlatformName)'"
-)</PostBuildEvent>
+    <PostBuildEvent>REM Create a NuGet package for this project and place the .nupkg file in the project's output directory.
+REM If you see this in Visual Studio's Error List window, check the Output window's Build tab for the actual error.
+ECHO Creating NuGet package in Post-Build event...
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1' -ProjectFilePath '$(ProjectPath)' -OutputDirectory '$(TargetDir)' -BuildConfiguration '$(ConfigurationName)' -BuildPlatform '$(PlatformName)'"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

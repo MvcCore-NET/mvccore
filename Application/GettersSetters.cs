@@ -11,11 +11,6 @@ namespace MvcCore {
 		protected List<PreDispatchHandler> preDispatchHandlers = new List<PreDispatchHandler>();
 		protected List<PostDispatchHandler> postDispatchHandlers = new List<PostDispatchHandler>();
 
-		protected Controller controller = null;
-		protected Request request = null;
-		protected Response response = null;
-		protected Router router = null;
-
 		protected Type configClass = typeof(Config);
 		protected Type sessionClass = typeof(Session);
 		protected Type requestClass = typeof(Request);
@@ -46,10 +41,17 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetRequestClass(Type requestClass) {
+			if (!(typeof(Request).IsAssignableFrom(requestClass))) {
+				throw new Exception($"Class {requestClass.FullName} is not inherited from MvcCore.Request.");
+			}
 			this.requestClass = requestClass;
 			return this;
 		}
 		public virtual Application SetRequestClass<RequestClass>() {
+			Type requestClass = typeof(RequestClass);
+			if (!(typeof(Request).IsAssignableFrom(requestClass))) {
+				throw new Exception($"Class {requestClass.FullName} is not inherited from MvcCore.Request.");
+			}
 			this.requestClass = typeof(RequestClass);
 			return this;
 		}
@@ -58,11 +60,18 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetResponseClass(Type responseClass) {
+			if (!(typeof(Response).IsAssignableFrom(responseClass))) {
+				throw new Exception($"Class {responseClass.FullName} is not inherited from MvcCore.Response.");
+			}
 			this.responseClass = responseClass;
 			return this;
 		}
 		public virtual Application SetResponseClass<ResponseClass>() {
-			this.responseClass = typeof(ResponseClass);
+			Type responseClass = typeof(ResponseClass);
+			if (!(typeof(Response).IsAssignableFrom(responseClass))) {
+				throw new Exception($"Class {responseClass.FullName} is not inherited from MvcCore.Response.");
+			}
+			this.responseClass = responseClass;
 			return this;
 		}
 		public virtual Type GetResponseClass() {
@@ -70,11 +79,18 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetRouterClass(Type routerClass) {
+			if (!(typeof(Router).IsAssignableFrom(routerClass))) {
+				throw new Exception($"Class {routerClass.FullName} is not inherited from MvcCore.Router.");
+			}
 			this.routerClass = routerClass;
 			return this;
 		}
 		public virtual Application SetRouterClass<RouterClass>() {
-			this.routerClass = typeof(RouterClass);
+			Type routerClass = typeof(RouterClass);
+			if (!(typeof(Router).IsAssignableFrom(routerClass))) {
+				throw new Exception($"Class {routerClass.FullName} is not inherited from MvcCore.Router.");
+			}
+			this.routerClass = routerClass;
 			return this;
 		}
 		public virtual Type GetRouterClass() {
@@ -82,11 +98,18 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetConfigClass(Type configClass) {
+			if (!(typeof(Config).IsAssignableFrom(configClass))) {
+				throw new Exception($"Class {configClass.FullName} is not inherited from MvcCore.Config.");
+			}
 			this.configClass = configClass;
 			return this;
 		}
 		public virtual Application SetConfigClass<ConfigClass>() {
-			this.configClass = typeof(ConfigClass);
+			Type configClass = typeof(ConfigClass);
+			if (!(typeof(Config).IsAssignableFrom(configClass))) {
+				throw new Exception($"Class {configClass.FullName} is not inherited from MvcCore.Config.");
+			}
+			this.configClass = configClass;
 			return this;
 		}
 		public virtual Type GetConfigClass() {
@@ -94,11 +117,18 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetSessionClass(Type sessionClass) {
+			if (!(typeof(Session).IsAssignableFrom(sessionClass))) {
+				throw new Exception($"Class {sessionClass.FullName} is not inherited from MvcCore.Session.");
+			}
 			this.sessionClass = sessionClass;
 			return this;
 		}
 		public virtual Application SetSessionClass<SessionClass>() {
-			this.sessionClass = typeof(SessionClass);
+			Type sessionClass = typeof(SessionClass);
+			if (!(typeof(Session).IsAssignableFrom(sessionClass))) {
+				throw new Exception($"Class {sessionClass.FullName} is not inherited from MvcCore.Session.");
+			}
+			this.sessionClass = sessionClass;
 			return this;
 		}
 		public virtual Type GetSessionClass() {
@@ -106,11 +136,18 @@ namespace MvcCore {
 		}
 
 		public virtual Application SetViewClass(Type viewClass) {
+			if (!(typeof(View).IsAssignableFrom(viewClass))) {
+				throw new Exception($"Class {viewClass.FullName} is not inherited from MvcCore.View.");
+			}
 			this.viewClass = viewClass;
 			return this;
 		}
 		public virtual Application SetViewClass<ViewClass>() {
-			this.viewClass = typeof(ViewClass);
+			Type viewClass = typeof(ViewClass);
+			if (!(typeof(View).IsAssignableFrom(viewClass))) {
+				throw new Exception($"Class {viewClass.FullName} is not inherited from MvcCore.View.");
+			}
+			this.viewClass = viewClass;
 			return this;
 		}
 		public virtual Type GetViewClass() {
@@ -129,27 +166,34 @@ namespace MvcCore {
 			return this.debugClass;
 		}
 
-		public virtual Router GetRouter () {
-			return this.router;
+		public virtual Router GetRouter (params Route[] routes) {
+			return Router.GetInstance(routes);
+		}
+		public virtual Route GetCurrentRoute () {
+			Applications.RequestContext context = Application.GetRequestContext();
+			if (context is Applications.RequestContext) {
+				return context.CurrentRoute;
+			}
+			return null;
 		}
 		public virtual Controller GetController() {
 			Applications.RequestContext context = Application.GetRequestContext();
 			if (context is Applications.RequestContext) {
-				return Application.GetRequestContext().Controller;
+				return context.Controller;
 			}
 			return null;
 		}
 		public virtual Request GetRequest() {
 			Applications.RequestContext context = Application.GetRequestContext();
 			if (context is Applications.RequestContext) {
-				return Application.GetRequestContext().Request;
+				return context.Request;
 			}
 			return null;
 		}
 		public virtual Response GetResponse() {
 			Applications.RequestContext context = Application.GetRequestContext();
 			if (context is Applications.RequestContext) {
-				return Application.GetRequestContext().Response;
+				return context.Response;
 			}
 			return null;
 		}

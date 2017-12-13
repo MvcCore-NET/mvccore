@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace MvcCore {
@@ -191,12 +192,43 @@ namespace MvcCore {
 				new object[] { context }
 			) as Request;
 		}
+		public object GetParam(string name = "", string regExpAllowedChars = @"a-zA-Z0-9_/\-\.\@") {
+			object result = "";
+			var requestParams = this.Params;
+			List<string> resultList;
+			string[] rawValues;
+			if (requestParams.ContainsKey(name)) {
+				if (requestParams[name] is string[]) {
+					rawValues = requestParams[name] as string[];
+					resultList = new List<string>();
+					for (int i = 0, l = rawValues.Length; i < l; i += 1) {
+						resultList.Add(this.getParam(rawValues[i], regExpAllowedChars));
+					}
+					result = resultList.ToArray();
+				} else if (requestParams[name] is string) {
+					result = this.getParam(requestParams[name].ToString(), regExpAllowedChars);
 
+				}
+			}
+			return result;
+		}
+		protected string getParam(string rawValue = "", string regExpAllowedChars = @"a-zA-Z0-9_/\-\.\@") {
+			if (rawValue.Length > 0) {
+				if (regExpAllowedChars.Length > 0 || regExpAllowedChars == ".*") {
+					return rawValue;
+				} else {
+					string pattern = "[^" + regExpAllowedChars + "]";
+					return Regex.Replace(pattern, "", rawValue);
+				}
+			}
+			return rawValue;
+		}
 		public Request(HttpContext context) {
 
 			this.contextRequest = context.Request;
 
 			this.initServer();
+			this.initHeaders();
 
 			this.initAppRoot();
 			this.initMethod();
@@ -218,6 +250,18 @@ namespace MvcCore {
 				serverKey = serverKeys[i];
 				serverValue = server[serverKey];
 				this.Server.Add(serverKey, serverValue);
+			}
+		}
+
+		private void initHeaders() {
+			NameValueCollection headers = this.contextRequest.Headers;
+			string[] headersKeys = headers.AllKeys;
+			string headerKey;
+			string headerValue;
+			for (int i = 0, l = headersKeys.Length; i < l; i += 1) {
+				headerKey = headersKeys[i];
+				headerValue = headers[headerKey];
+				this.Headers.Add(headerKey, headerValue);
 			}
 		}
 
@@ -255,7 +299,23 @@ namespace MvcCore {
 		}
 
 		protected virtual void initHttpParams() {
-			Desharp.Debug.Dump("asdf");
+			Dictionary<string, object> requestParams = Tool.ParseQueryString(this.Query);
+			if (this.Method == Request.METHOD_POST) {
+				string contentType = this.contextRequest.ContentType.ToLower();
+				StreamReader reader = new StreamReader(this.contextRequest.InputStream);
+				Dictionary<string, object> postParams = new Dictionary<string, object>();
+				if (contentType.IndexOf("application/x-www-form-urlencoded") > -1) {
+					try {
+						postParams = Tool.ParseQueryString(reader.ReadToEnd());
+					} catch (System.Exception e) {}
+				} else if (contentType.IndexOf("text/plain") > -1) {
+					while (!reader.EndOfStream) {
+						string line = reader.ReadLine();
+						Tool.ParseQueryStringItem(ref line, ref postParams);
+					}
+				}
+			}
+			this.Params = requestParams;
 		}
 
 		protected virtual void initPath() {

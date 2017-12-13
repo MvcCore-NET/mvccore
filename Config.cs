@@ -5,5 +5,6 @@ using System.Text;
 
 namespace MvcCore {
 	public class Config {
+		public static bool IsDevelopment => true;
 	}
 }
